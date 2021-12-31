@@ -1,0 +1,609 @@
+/*============= RESET =============*/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+img {
+  width: 100%;
+  height: auto;
+  /* o auto vai ajustar o height de acordo com o width de 100% */
+}
+
+ul {
+  list-style: none;
+}
+/*============= VARIABLES =============*/
+
+:root {
+  --header-height: 7.2rem;
+  font-size: 62.5%;
+  --hue: 159;
+  --base-color: hsl(var(--hue) 36% 57%);
+  --base-color-second: hsl(var(--hue) 65% 88%);
+  --base-color-alt: hsl(var(--hue) 57% 53%);
+  --title-color: hsl(var(--hue) 41% 10%);
+  --text-color: hsl(0 0% 46%);
+  --text-color-light: hsl(0 0% 98%);
+  --body-color: hsl(0 0% 98%);
+
+  --title-font-size: 3rem;
+  --subtitle-font-size: 1.6rem;
+
+  --title-font: 'Poppins', sans-serif;
+  --body-font: 'DM Sans', sans-serif;
+}
+/*============= BASE=============*/
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font: 400 1.6rem 'DM Sans', sans-serif;
+  color: var(--text-color);
+  background-color: var(--body-color);
+  -webkit-font-smoothing: auto;
+}
+.title {
+  font: 700 var(--title-font-size) var(--title-font);
+  /* modifiquei */
+  color: var(--title-color);
+  -webkit-font-smoothing: auto;
+}
+.button {
+  background-color: var(--base-color);
+  color: var(--text-color-light);
+  /* links a nao permitem a inserção de valores
+  de height e wid por padrao, ent usa o inline-flex */
+  display: inline-flex;
+  align-items: center;
+  height: 5.6rem;
+  padding: 0 3.6rem;
+  border-radius: 0.4rem;
+  font: 500 1.6rem var(--body-font);
+  transition: background 0.3s;
+}
+.button:hover {
+  background: var(--base-color-alt);
+}
+
+/*============= LAYOUT =============*/
+.container {
+  margin-right: 2.4rem;
+  margin-left: 2.4rem;
+}
+.grid {
+  display: grid;
+  gap: 3.2rem;
+  /* GAP tbm funciona no flex */
+}
+.section {
+  padding: calc(8rem + var(--header-height)) 0;
+}
+.section .title {
+  margin: 1.6rem 1.6rem 1.6rem 0;
+}
+
+.section .subtitle {
+  font-size: var(--subtitle-font-size);
+}
+
+.section header {
+  margin-bottom: 6.4rem;
+}
+.section header strong {
+  color: var(--base-color);
+}
+#header {
+  display: flex;
+  border-bottom: 1px solid #e4e4e4;
+  margin-bottom: 3.2rem;
+
+  background-color: var(--body-color);
+  /* para nao ter barra de rolagem lateral */
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+#header.scroll {
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+}
+/* ===== LOGO ============== */
+.logo {
+  font: 700 2.1rem var(--title-font);
+  color: var(--title-color);
+}
+.logo span {
+  color: var(--base-color);
+}
+.logo-alt span {
+  color: var(--body-color);
+}
+/* ===== MAIN ============== */
+
+/* ===== NAVIGATION ============== */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: var(--header-height);
+  width: 100%;
+}
+
+/* ==== MOSTRAR MENU ============= */
+nav ul li {
+  text-align: center;
+}
+nav ul li a {
+  transition: color 0.2s;
+  position: relative;
+}
+nav ul li a:hover,
+nav ul li a.active {
+  color: var(--base-color);
+}
+
+/* estudar mais sobre pseudo elements e o hover sobre isso */
+nav ul li a::after {
+  content: '';
+  width: 0%;
+  height: 2px;
+  background: var(--base-color);
+
+  position: absolute;
+  left: 0;
+  bottom: -2rem;
+
+  transition: width 0.2s;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+  width: 100%;
+}
+
+nav .menu {
+  opacity: 0;
+  visibility: hidden;
+  top: -20rem;
+  transition: 0.2s;
+}
+
+nav .menu ul {
+  display: none;
+}
+
+nav.show .menu ul {
+  display: grid;
+}
+
+nav.show .menu {
+  opacity: 1;
+  visibility: visible;
+
+  background: var(--body-color);
+
+  height: 100vh;
+  width: 100vw;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: grid;
+  place-content: center;
+}
+
+nav.show ul.grid {
+  gap: 3.4rem;
+}
+
+/* TOGGLE MENU */
+
+.toggle {
+  color: var(--base-color);
+  font-size: 2.4rem;
+  cursor: pointer;
+}
+nav .icon-close {
+  visibility: hidden;
+  opacity: 0;
+  top: -2.4rem;
+  position: absolute;
+  right: 2.4rem;
+
+  transition: 0.2s;
+}
+
+nav.show div.icon-close {
+  visibility: visible;
+  top: 2.4rem;
+  opacity: 1;
+}
+
+/*============= HOME =============*/
+#home {
+  overflow: hidden;
+  /* A a image::before passa do main, ai esse overflow esconde o que passou */
+}
+#home .container {
+  margin: 0;
+}
+#home .image {
+  position: relative;
+}
+#home .image::before {
+  /* ::be cria um elemento fantasma depois do conteudo */
+  content: '';
+  position: absolute;
+  top: -16.8%;
+  left: 16.7%;
+  background-color: var(--base-color-second);
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+#home .image img {
+  position: relative;
+  right: 4.7rem;
+}
+
+#home .image img,
+#home .image::before {
+  border-radius: 0.4rem;
+}
+#home .text {
+  margin-left: 2.4rem;
+  margin-right: 2.4rem;
+  /* testar o auto para centralizar */
+  text-align: center;
+}
+#home .text h2 {
+  margin-bottom: 1.6rem;
+}
+#home .text p {
+  margin-bottom: 3.2rem;
+  max-width: 100%;
+  /* para nao ter barra de rolagem lateral */
+}
+.divider-1 {
+  height: 0.1rem;
+  background: linear-gradient(
+    270deg,
+    hsla(var(--hue), 36%, 57%, 1),
+    hsla(var(--hue), 65%, 88%, 0.34)
+  );
+}
+
+/*============= ABOUT =============*/
+#about {
+  background: white;
+}
+#about .container {
+  margin: 0;
+}
+#about .image {
+  position: relative;
+}
+#about .image::before {
+  /* ::be cria um elemento fantasma depois do conteudo */
+  content: '';
+  position: absolute;
+  top: -8.3%;
+  left: -33%;
+  background-color: var(--base-color-second);
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+#about .image img {
+  position: relative;
+}
+
+#about .image img,
+#about .image::before {
+  border-radius: 0.4rem;
+}
+#about .text {
+  margin-left: 2.4rem;
+  margin-right: 2.4rem;
+  /* testar o auto para centralizar */
+}
+
+.divider-2 {
+  height: 0.1rem;
+  background: linear-gradient(
+    270deg,
+    hsla(var(--hue), 65%, 88%, 0.34),
+    hsla(var(--hue), 36%, 57%, 1)
+  );
+}
+/*============= SERVICE =============*/
+.cards.grid {
+  gap: 2.4rem;
+}
+.card {
+  padding: 5.8rem 3.2rem;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  border-bottom: 0.4rem solid var(--base-color);
+  border-radius: 0.4rem 0.4rem 0 0;
+  text-align: center;
+}
+.card i {
+  display: block;
+  margin-bottom: 2.4rem;
+  font-size: 8rem;
+  color: var(--base-color);
+}
+
+.card .title {
+  font-size: 2.4rem;
+  margin-bottom: 1.2rem;
+}
+
+/*============= TESTIMONIALS =============*/
+#testimonials {
+  background: white;
+}
+#testimonials .container {
+  margin-left: 0;
+  margin-right: 0;
+}
+#testimonials header {
+  margin-left: 2.4rem;
+  margin-right: 2.4rem;
+  margin-bottom: 0;
+}
+#testimonials blockquote {
+  padding: 3.2rem;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 0.4rem;
+}
+
+#testimonials blockquote p {
+  position: relative;
+  margin-bottom: 2.4rem;
+  text-indent: 3rem;
+  color: var(--title-color);
+}
+
+#testimonials blockquote p span {
+  font: 700 4rem serif;
+
+  position: absolute;
+  top: -0.6rem;
+  left: -3rem;
+  color: var(--base-color);
+}
+#testimonials cite {
+  display: flex;
+  align-items: center;
+  font-style: normal;
+}
+#testimonials cite img {
+  width: 3.2rem;
+  height: 3.2rem;
+
+  object-fit: cover;
+
+  clip-path: circle();
+
+  margin-right: 0.8rem;
+}
+
+.swiper-slide {
+  height: auto;
+  padding: 6.4rem 1.6rem;
+}
+
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  background: var(--base-color);
+}
+
+/*============= CONTACT =============*/
+#contact .grid {
+  gap: 6.4rem;
+}
+#contact .container .text a {
+  margin-top: 3.2rem;
+}
+#contact .button i,
+#contact ul li i {
+  font-size: 2.4rem;
+  margin-right: 1rem;
+}
+
+#contact ul.grid {
+  gap: 3.2rem;
+}
+
+#contact ul li {
+  display: flex;
+  align-items: center;
+}
+#contact ul li i {
+  color: var(--base-color);
+}
+/* ######### FOOTER #################### */
+footer {
+  background: var(--base-color);
+}
+footer.section {
+  padding: 6.4rem 0;
+}
+footer .logo {
+  display: inline-block;
+  margin-bottom: 2.4rem;
+}
+footer .brand p {
+  color: var(--text-color-light);
+  margin-bottom: 1.2rem;
+}
+
+footer i {
+  font-size: 2.4rem;
+  color: var(--text-color-light);
+}
+footer .social {
+  grid-auto-flow: column;
+  width: fit-content;
+}
+footer .social a {
+  /* margin-right: 3.2rem; */
+  transition: 0.3s;
+
+  /* display: inline-block; */
+}
+footer .social a:hover {
+  transform: translateY(-7px);
+}
+/*  ########### BACK TO TOP ################### */
+.back-to-top {
+  background-color: var(--base-color);
+  color: var(--text-color-light);
+  position: fixed;
+  right: 1.6rem;
+  bottom: 1.6rem;
+
+  padding: 0.54rem;
+  clip-path: circle();
+  line-height: 0;
+
+  visibility: hidden;
+  opacity: 0;
+
+  transition: 0.3s;
+  /* para sair da dela e voltar */
+  transform: translateY(100%);
+}
+
+.back-to-top.show {
+  visibility: visible;
+  opacity: 1;
+  /* para voltar para tela subindo */
+  transform: translateY(0);
+}
+
+/* ######## MEDIA QUERIES ######*/
+
+/* extra large devices: 1200+ */
+@media (min-width: 1200px) {
+  main {
+    margin-top: calc(var(--header-height));
+  }
+  /* reusable classes */
+  .container {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section {
+    padding: 16rem 0;
+  }
+  .section header #testimonials header {
+    max-width: 52.3rem;
+    text-align: center;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* navigation */
+  nav .menu {
+    opacity: 1;
+    visibility: visible;
+    top: 0;
+  }
+
+  nav .menu ul {
+    display: flex;
+    gap: 3.2rem;
+  }
+
+  nav .menu ul li a.title {
+    font: 400 1.6rem var(--body-font);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  nav .menu ul li a.title.active {
+    font-weight: bold;
+    -webkit-font-smoothing: auto;
+  }
+
+  nav .icon-menu {
+    display: none;
+  }
+  .button {
+    height: 5rem;
+  }
+
+  /* home */
+  #home .container {
+    grid-auto-flow: column;
+    justify-content: space-between;
+
+    margin: 0 auto;
+  }
+  #home .image {
+    order: 1;
+  }
+  #home .text {
+    order: 0;
+    max-width: 38.4rem;
+    text-align: left;
+  }
+
+  /* about */
+  #about .container {
+    grid-auto-flow: column;
+    margin: 0 auto;
+  }
+  /* services*/
+  .cards {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .card {
+    padding-left: 6.4rem;
+  }
+  /* testimonials */
+  #testimonials .container {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* contacts */
+  #contact .container {
+    grid-auto-flow: column;
+    align-items: center;
+  }
+}
+/* footer */
+
+footer.section {
+  padding: 6.1rem;
+}
+
+footer .container {
+  grid-auto-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer .logo {
+  font-size: 3.4rem;
+}
+
+/* large devices: 1023+ */
+/* large devices: 992+ */
+@media (min-width: 992px) {
+  :root {
+    --title-font-size: 3.6rem;
+    --subtitle-font-size: 1.8rem;
+  }
+}
+/* medium devices: 767+ */
